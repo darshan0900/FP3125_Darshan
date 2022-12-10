@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.darshan09200.employeemanagementsystem.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnFabClickListener {
 
     ActivityMainBinding binding;
 
@@ -17,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportFragmentManager().beginTransaction().add(R.id.mainFragment, new RegistrationFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.mainFragment, new HomeFragment()).commit();
+    }
+
+    @Override
+    public void onFabClick() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment, new RegistrationFragment()).commit();
     }
 }

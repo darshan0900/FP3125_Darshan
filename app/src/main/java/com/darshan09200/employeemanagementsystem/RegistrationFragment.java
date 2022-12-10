@@ -20,11 +20,7 @@ public class RegistrationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRegistrationBinding.inflate(inflater, container, false);
-
-        controller = new RegistrationController(getActivity(), binding);
-
-        binding.dob.setText("12/34/5678");
-
+        controller = new RegistrationController(getContext(), binding);
         return binding.getRoot();
     }
 }
