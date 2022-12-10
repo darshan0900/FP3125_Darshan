@@ -60,7 +60,7 @@ public class RegistrationController {
 
 
     public void resetUI() {
-        binding.empId.setText("123");
+        binding.empId.setText("EMP-123");
         binding.dob.setText("12/34/5678");
 
         binding.bonusLabel.setText("Number of Clients");

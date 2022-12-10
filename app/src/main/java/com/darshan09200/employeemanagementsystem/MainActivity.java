@@ -21,6 +21,13 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
         setContentView(binding.getRoot());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.primaryFragment, new HomeFragment()).commit();
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
+                hideBackButton();
+            } else if (!isSplitLayoutActive()) {
+                showBackButton();
+            }
+        });
     }
 
     @Override
@@ -29,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
             hideBackButton();
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).commit();
         } else {
-            showBackButton();
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
                             R.anim.from_left,
                             R.anim.to_right
                     )
-                    .add(R.id.primaryFragment, new RegistrationFragment())
+                    .replace(R.id.primaryFragment, new RegistrationFragment())
                     .addToBackStack(null)
                     .commit();
         }
@@ -72,15 +77,5 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
             simulateBackPressed();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
-        if (isSplitLayoutActive() && fragment instanceof RegistrationFragment) {
-            simulateBackPressed();
-        } else {
-            super.onBackPressed();
-        }
     }
 }
