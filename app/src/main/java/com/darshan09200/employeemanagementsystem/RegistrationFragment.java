@@ -9,10 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistrationBinding;
+
 public class RegistrationFragment extends Fragment {
+
+    FragmentRegistrationBinding binding;
+    RegistrationController controller;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_registration, container, false);
+        binding = FragmentRegistrationBinding.inflate(inflater, container, false);
+
+        controller = new RegistrationController(getActivity(), binding);
+
+        binding.dob.setText("12/34/5678");
+
+        return binding.getRoot();
     }
 }
