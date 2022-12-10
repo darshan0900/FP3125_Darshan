@@ -3,7 +3,30 @@ package com.darshan09200.employeemanagementsystem;
 
 import java.util.ArrayList;
 
-enum Vehicle {
+interface EnhancedEnum {
+    String label = null;
+
+    String getLabel();
+}
+
+enum EmployeeType implements EnhancedEnum {
+    MANAGER("Manager"),
+    PROGRAMMER("Programmer"),
+    TESTER("Tester");
+
+    private final String label;
+
+    EmployeeType(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+}
+
+
+enum Vehicle implements EnhancedEnum {
     BOTH("Both"),
     CAR("Car"),
     MOTORCYCLE("Motorcycle");
@@ -19,7 +42,7 @@ enum Vehicle {
     }
 }
 
-enum VehicleMake {
+enum VehicleMake implements EnhancedEnum {
     CHOOSE_MAKE("Please choose a make", Vehicle.BOTH),
     KAWASAKI("Kawasaki", Vehicle.MOTORCYCLE),
     HONDA("Honda", Vehicle.BOTH),
@@ -45,7 +68,7 @@ enum VehicleMake {
     }
 }
 
-enum VehicleCategory {
+enum VehicleCategory implements EnhancedEnum {
     CHOSE_CATEGORY("Please choose a category", Vehicle.BOTH),
     RACE_MOTORCYCLE("Race Motorcycle", Vehicle.MOTORCYCLE),
     NOT_FOR_RACE("Not for Race", Vehicle.BOTH),
@@ -68,7 +91,7 @@ enum VehicleCategory {
     }
 }
 
-enum VehicleType {
+enum VehicleType implements EnhancedEnum {
     CHOOSE_TYPE("Please choose a type"),
     SEDAN("Sedan"),
     SPORT("Sport"),
@@ -86,7 +109,7 @@ enum VehicleType {
     }
 }
 
-enum VehicleColor {
+enum VehicleColor implements EnhancedEnum {
     CHOOSE_COLOR("Please choose a color"),
     YELLOW("Yellow"),
     BLACK("Black"),
@@ -124,6 +147,16 @@ public class Registration {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public ArrayList<String> getEmployeeTypeData() {
+        ArrayList<String> employeeTypes = new ArrayList<>();
+
+        for (EmployeeType employeeType :
+                EmployeeType.values()) {
+            employeeTypes.add(employeeType.getLabel());
+        }
+        return employeeTypes;
     }
 
     public ArrayList<String> getVehicleMakeData() {

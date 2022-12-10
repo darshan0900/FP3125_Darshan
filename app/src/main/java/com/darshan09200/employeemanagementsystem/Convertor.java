@@ -1,6 +1,17 @@
 package com.darshan09200.employeemanagementsystem;
 
+import java.util.EnumSet;
+
 public class Convertor {
+
+    public static EmployeeType convertEmployeeType(String text) {
+        for (EmployeeType employeeType :
+                EmployeeType.values()) {
+            if (employeeType.getLabel().equalsIgnoreCase(text)) return employeeType;
+        }
+        return null;
+    }
+
     public static Vehicle convertVehicle(String text) {
         for (Vehicle v :
                 Vehicle.values()) {

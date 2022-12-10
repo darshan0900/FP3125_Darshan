@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
 
     @Override
     public void onFabClick() {
-        boolean isSplitLayoutActive = getResources().getBoolean(R.bool.isSplitLayoutActive);
-        if (isSplitLayoutActive) {
+        if (isSplitLayoutActive()) {
             hideBackButton();
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).commit();
         } else {
@@ -41,9 +40,13 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
                             R.anim.to_right
                     )
                     .add(R.id.primaryFragment, new RegistrationFragment())
-                    .addToBackStack("registration")
+                    .addToBackStack(null)
                     .commit();
         }
+    }
+
+    private boolean isSplitLayoutActive() {
+        return getResources().getBoolean(R.bool.isSplitLayoutActive);
     }
 
     private void showBackButton() {
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
-        if (fragment instanceof RegistrationFragment) {
+        if (isSplitLayoutActive() && fragment instanceof RegistrationFragment) {
             simulateBackPressed();
         } else {
             super.onBackPressed();
