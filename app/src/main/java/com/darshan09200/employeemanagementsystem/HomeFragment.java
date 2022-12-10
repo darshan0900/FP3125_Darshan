@@ -27,7 +27,7 @@ public class HomeFragment extends Fragment {
         if (context instanceof OnFabClickListener) {
             fabClickListener = (OnFabClickListener) context;
         } else {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(context
                     + "must implement OnUpdatePressedListener interface"
             );
         }
@@ -38,9 +38,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        binding.fabBtn.setOnClickListener(v -> {
-            fabClickListener.onFabClick();
-        });
+        binding.fabBtn.setOnClickListener(v -> fabClickListener.onFabClick());
 
         return binding.getRoot();
     }

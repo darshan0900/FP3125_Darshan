@@ -4,8 +4,6 @@ package com.darshan09200.employeemanagementsystem;
 import java.util.ArrayList;
 
 interface EnhancedEnum {
-    String label = null;
-
     String getLabel();
 }
 
@@ -26,14 +24,14 @@ enum EmployeeType implements EnhancedEnum {
 }
 
 
-enum Vehicle implements EnhancedEnum {
+enum VehicleKind implements EnhancedEnum {
     BOTH("Both"),
     CAR("Car"),
     MOTORCYCLE("Motorcycle");
 
     private final String label;
 
-    Vehicle(String label) {
+    VehicleKind(String label) {
         this.label = label;
     }
 
@@ -43,18 +41,18 @@ enum Vehicle implements EnhancedEnum {
 }
 
 enum VehicleMake implements EnhancedEnum {
-    CHOOSE_MAKE("Please choose a make", Vehicle.BOTH),
-    KAWASAKI("Kawasaki", Vehicle.MOTORCYCLE),
-    HONDA("Honda", Vehicle.BOTH),
-    LAMBORGHINI("Lamborghini", Vehicle.CAR),
-    BMW("BMW", Vehicle.CAR),
-    RENAULT("Renault", Vehicle.CAR),
-    MAZDA("Mazda", Vehicle.CAR);
+    CHOOSE_MAKE("Please choose a make", VehicleKind.BOTH),
+    KAWASAKI("Kawasaki", VehicleKind.MOTORCYCLE),
+    HONDA("Honda", VehicleKind.BOTH),
+    LAMBORGHINI("Lamborghini", VehicleKind.CAR),
+    BMW("BMW", VehicleKind.CAR),
+    RENAULT("Renault", VehicleKind.CAR),
+    MAZDA("Mazda", VehicleKind.CAR);
 
     private final String label;
-    private final Vehicle vehicle;
+    private final VehicleKind vehicle;
 
-    VehicleMake(String label, Vehicle vehicle) {
+    VehicleMake(String label, VehicleKind vehicle) {
         this.label = label;
         this.vehicle = vehicle;
     }
@@ -63,21 +61,21 @@ enum VehicleMake implements EnhancedEnum {
         return label;
     }
 
-    public Vehicle getVehicle() {
+    public VehicleKind getVehicle() {
         return vehicle;
     }
 }
 
 enum VehicleCategory implements EnhancedEnum {
-    CHOSE_CATEGORY("Please choose a category", Vehicle.BOTH),
-    RACE_MOTORCYCLE("Race Motorcycle", Vehicle.MOTORCYCLE),
-    NOT_FOR_RACE("Not for Race", Vehicle.BOTH),
-    FAMILY("Family", Vehicle.CAR);
+    CHOSE_CATEGORY("Please choose a category", VehicleKind.BOTH),
+    RACE_MOTORCYCLE("Race Motorcycle", VehicleKind.MOTORCYCLE),
+    NOT_FOR_RACE("Not for Race", VehicleKind.BOTH),
+    FAMILY("Family", VehicleKind.CAR);
 
     private final String label;
-    private final Vehicle vehicle;
+    private final VehicleKind vehicle;
 
-    VehicleCategory(String label, Vehicle vehicle) {
+    VehicleCategory(String label, VehicleKind vehicle) {
         this.label = label;
         this.vehicle = vehicle;
     }
@@ -86,7 +84,7 @@ enum VehicleCategory implements EnhancedEnum {
         return label;
     }
 
-    public Vehicle getVehicle() {
+    public VehicleKind getVehicle() {
         return vehicle;
     }
 }
@@ -131,7 +129,7 @@ enum VehicleColor implements EnhancedEnum {
 public class Registration {
     private static Registration instance;
 
-    private Vehicle vehicle = Vehicle.CAR;
+    private VehicleKind vehicle = VehicleKind.CAR;
 
     private Registration() {
     }
@@ -141,12 +139,12 @@ public class Registration {
         return instance;
     }
 
-    public Vehicle getVehicle() {
+    public VehicleKind getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicle(VehicleKind vehicleKind) {
+        this.vehicle = vehicleKind;
     }
 
     public ArrayList<String> getEmployeeTypeData() {
@@ -164,7 +162,7 @@ public class Registration {
 
         for (VehicleMake vehicleMake :
                 VehicleMake.values()) {
-            if (vehicleMake.getVehicle() == vehicle || vehicleMake.getVehicle() == Vehicle.BOTH)
+            if (vehicleMake.getVehicle() == vehicle || vehicleMake.getVehicle() == VehicleKind.BOTH)
                 vehicleMakes.add(vehicleMake.getLabel());
         }
         return vehicleMakes;
@@ -175,7 +173,7 @@ public class Registration {
 
         for (VehicleCategory vehicleCategory :
                 VehicleCategory.values()) {
-            if (vehicleCategory.getVehicle() == vehicle || vehicleCategory.getVehicle() == Vehicle.BOTH)
+            if (vehicleCategory.getVehicle() == vehicle || vehicleCategory.getVehicle() == VehicleKind.BOTH)
                 vehicleCategories.add(vehicleCategory.getLabel());
         }
         return vehicleCategories;
