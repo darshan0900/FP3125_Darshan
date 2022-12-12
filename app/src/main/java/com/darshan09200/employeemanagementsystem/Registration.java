@@ -1,6 +1,8 @@
 package com.darshan09200.employeemanagementsystem;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 interface EnhancedEnum {
@@ -129,29 +131,170 @@ enum VehicleColor implements EnhancedEnum {
 public class Registration {
     private static Registration instance;
 
-    private VehicleKind vehicle = VehicleKind.CAR;
+    private String firstName;
+    private String lastName;
+    private LocalDate dob;
+    private String monthlySalary;
+    private String occupationRate;
+    private EmployeeType employeeType;
+    private String bonusValue;
+    private VehicleKind vehicleKind;
+    private VehicleMake vehicleMake;
+    private VehicleCategory vehicleCategory;
+    private VehicleType vehicleType;
+    private VehicleColor vehicleColor;
+    private Boolean isSidecarChecked;
+    private String vehiclePlate;
 
     private Registration() {
+        resetFields();
     }
 
     public static Registration getInstance() {
-        if (instance == null) instance = new Registration();
+        if (instance == null)
+            instance = new Registration();
         return instance;
     }
 
-    public VehicleKind getVehicle() {
-        return vehicle;
+    public void resetFields(){
+        firstName = "";
+        lastName = "";
+        dob = LocalDate.now().minusYears(16);
+        monthlySalary = "";
+        occupationRate = "";
+        employeeType = EmployeeType.MANAGER;
+        bonusValue = "";
+        vehicleKind = VehicleKind.CAR;
+        vehicleMake = VehicleMake.CHOOSE_MAKE;
+        vehicleCategory = VehicleCategory.CHOSE_CATEGORY;
+        vehicleType = VehicleType.CHOOSE_TYPE;
+        vehicleColor = VehicleColor.CHOOSE_COLOR;
+        isSidecarChecked = false;
+        vehiclePlate = "";
     }
 
-    public void setVehicle(VehicleKind vehicleKind) {
-        this.vehicle = vehicleKind;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public String getFormattedDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedString = dob.format(formatter);
+        return formattedString;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+
+    public String getMonthlySalary() {
+        return monthlySalary;
+    }
+
+    public void setMonthlySalary(String monthlySalary) {
+        this.monthlySalary = monthlySalary;
+    }
+
+    public String getOccupationRate() {
+        return occupationRate;
+    }
+
+    public void setOccupationRate(String occupationRate) {
+        this.occupationRate = occupationRate;
+    }
+
+    public String getBonusValue() {
+        return bonusValue;
+    }
+
+    public void setBonusValue(String bonusValue) {
+        this.bonusValue = bonusValue;
+    }
+
+    public EmployeeType getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+    }
+
+    public VehicleKind getVehicleKind() {
+        return vehicleKind;
+    }
+
+    public void setVehicleKind(VehicleKind vehicleKind) {
+        this.vehicleKind = vehicleKind;
+    }
+
+    public VehicleMake getVehicleMake() {
+        return vehicleMake;
+    }
+
+    public void setVehicleMake(VehicleMake vehicleMake) {
+        this.vehicleMake = vehicleMake;
+    }
+
+    public VehicleCategory getVehicleCategory() {
+        return vehicleCategory;
+    }
+
+    public void setVehicleCategory(VehicleCategory vehicleCategory) {
+        this.vehicleCategory = vehicleCategory;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
+    }
+
+    public VehicleColor getVehicleColor() {
+        return vehicleColor;
+    }
+
+    public void setVehicleColor(VehicleColor vehicleColor) {
+        this.vehicleColor = vehicleColor;
+    }
+
+    public String getVehiclePlate() {
+        return vehiclePlate;
+    }
+
+    public void setVehiclePlate(String vehiclePlate) {
+        this.vehiclePlate = vehiclePlate;
+    }
+
+    public Boolean getSidecarChecked() {
+        return isSidecarChecked;
+    }
+
+    public void setSidecarChecked(Boolean sidecarChecked) {
+        isSidecarChecked = sidecarChecked;
     }
 
     public ArrayList<String> getEmployeeTypeData() {
         ArrayList<String> employeeTypes = new ArrayList<>();
 
-        for (EmployeeType employeeType :
-                EmployeeType.values()) {
+        for (EmployeeType employeeType : EmployeeType.values()) {
             employeeTypes.add(employeeType.getLabel());
         }
         return employeeTypes;
@@ -160,9 +303,8 @@ public class Registration {
     public ArrayList<String> getVehicleMakeData() {
         ArrayList<String> vehicleMakes = new ArrayList<>();
 
-        for (VehicleMake vehicleMake :
-                VehicleMake.values()) {
-            if (vehicleMake.getVehicle() == vehicle || vehicleMake.getVehicle() == VehicleKind.BOTH)
+        for (VehicleMake vehicleMake : VehicleMake.values()) {
+            if (vehicleMake.getVehicle() == vehicleKind || vehicleMake.getVehicle() == VehicleKind.BOTH)
                 vehicleMakes.add(vehicleMake.getLabel());
         }
         return vehicleMakes;
@@ -171,9 +313,8 @@ public class Registration {
     public ArrayList<String> getVehicleCategoryData() {
         ArrayList<String> vehicleCategories = new ArrayList<>();
 
-        for (VehicleCategory vehicleCategory :
-                VehicleCategory.values()) {
-            if (vehicleCategory.getVehicle() == vehicle || vehicleCategory.getVehicle() == VehicleKind.BOTH)
+        for (VehicleCategory vehicleCategory : VehicleCategory.values()) {
+            if (vehicleCategory.getVehicle() == vehicleKind || vehicleCategory.getVehicle() == VehicleKind.BOTH)
                 vehicleCategories.add(vehicleCategory.getLabel());
         }
         return vehicleCategories;
@@ -182,8 +323,7 @@ public class Registration {
     public ArrayList<String> getVehicleTypeData() {
         ArrayList<String> vehicleTypes = new ArrayList<>();
 
-        for (VehicleType vehicleType :
-                VehicleType.values()) {
+        for (VehicleType vehicleType : VehicleType.values()) {
             vehicleTypes.add(vehicleType.getLabel());
         }
         return vehicleTypes;
@@ -192,11 +332,9 @@ public class Registration {
     public ArrayList<String> getVehicleColorData() {
         ArrayList<String> vehicleColors = new ArrayList<>();
 
-        for (VehicleColor vehicleColor :
-                VehicleColor.values()) {
+        for (VehicleColor vehicleColor : VehicleColor.values()) {
             vehicleColors.add(vehicleColor.getLabel());
         }
         return vehicleColors;
     }
-
 }
