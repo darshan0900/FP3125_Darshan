@@ -362,24 +362,41 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
         Boolean isSidecarChecked = Registration.getInstance().getSidecarChecked();
         String vehiclePlate = Registration.getInstance().getVehiclePlate().trim();
 
+        boolean error = false;
         String msg = "";
-        if (firstName.isEmpty())
-            msg = "Please enter first name";
-        else if (lastName.isEmpty())
-            msg = "Please enter last name";
-        else if (monthlySalary.isEmpty())
-            msg = "Please enter monthly salary";
-        else if (!isNumeric(monthlySalary))
-            msg = "Please enter valid monthly salary";
-        else if (occupationRate.isEmpty())
-            msg = "Please enter occupation rate";
-        else if (!isNumeric(occupationRate))
-            msg = "Please enter valid occupation rate";
-        else if (bonusValue.isEmpty())
-            msg = "Please enter value";
-        else if (!isNumeric(bonusValue))
-            msg = "Please enter valid value";
-        else if (vehicleMake == VehicleMake.CHOOSE_MAKE)
+        if (firstName.isEmpty()) {
+            binding.firstName.setError("Please enter first name");
+            binding.firstName.requestFocus();
+            error = true;
+        } else if (lastName.isEmpty()) {
+            binding.lastName.setError("Please enter last name");
+            binding.lastName.requestFocus();
+            error = true;
+        } else if (monthlySalary.isEmpty()) {
+            binding.monthlySalary.setError("Please enter monthly salary");
+            binding.monthlySalary.requestFocus();
+            error = true;
+        } else if (!isNumeric(monthlySalary)) {
+            binding.monthlySalary.setError("Please enter valid monthly salary");
+            binding.monthlySalary.requestFocus();
+            error = true;
+        } else if (occupationRate.isEmpty()) {
+            binding.occupationRate.setError("Please enter occupation rate");
+            binding.occupationRate.requestFocus();
+            error = true;
+        } else if (!isNumeric(occupationRate)) {
+            binding.occupationRate.setError("Please enter valid occupation rate");
+            binding.occupationRate.requestFocus();
+            error = true;
+        } else if (bonusValue.isEmpty()) {
+            binding.bonus.setError("Please enter value");
+            binding.bonus.requestFocus();
+            error = true;
+        } else if (!isNumeric(bonusValue)) {
+            binding.bonus.setError("Please enter valid value");
+            binding.bonus.requestFocus();
+            error = true;
+        } else if (vehicleMake == VehicleMake.CHOOSE_MAKE)
             msg = VehicleMake.CHOOSE_MAKE.getLabel();
         else if (vehicleCategory == VehicleCategory.CHOSE_CATEGORY)
             msg = VehicleCategory.CHOSE_CATEGORY.getLabel();
@@ -387,13 +404,18 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             msg = VehicleType.CHOOSE_TYPE.getLabel();
         else if (vehicleColor == VehicleColor.CHOOSE_COLOR)
             msg = VehicleColor.CHOOSE_COLOR.getLabel();
-        else if (vehiclePlate.isEmpty())
-            msg = "Please enter vehicle plate number";
-        else if (!isValidPlateNumber(vehiclePlate))
-            msg = "Please enter valid vehicle plate number";
+        else if (vehiclePlate.isEmpty()) {
+            binding.vehiclePlate.setError("Please enter vehicle plate number");
+            binding.vehiclePlate.requestFocus();
+            error = true;
+        } else if (!isValidPlateNumber(vehiclePlate)) {
+            binding.vehiclePlate.setError("Please enter valid vehicle plate number");
+            binding.vehiclePlate.requestFocus();
+            error = true;
+        }
         if (msg.length() > 0) {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (!error) {
             Employee employee;
             Vehicle vehicle;
 
