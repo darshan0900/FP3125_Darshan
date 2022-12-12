@@ -21,15 +21,33 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.primaryFragment, new HomeFragment()).commit();
+        FragmentManager fm = getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.primaryFragment, new HomeFragment())
+                .addToBackStack("primary")
+                .commit();
         if (Database.getInstance().isEditActive()) {
             onFabClick();
         }
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
+            if (isSplitLayoutActive()) {
                 hideBackButton();
-            } else if (!isSplitLayoutActive()) {
-                showBackButton();
+            } else {
+                int primaryCount = 0;
+                for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+                    FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(i);
+                    if (backStackEntry.getName().equals("primary")) primaryCount++;
+                }
+                if (primaryCount > 1) {
+                    showBackButton();
+                } else {
+                    hideBackButton();
+                }
             }
         });
     }
@@ -71,10 +89,16 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
     }
 
     private void simulateBackPressed() {
-        Database.getInstance().setEditActive(false);
-        Database.getInstance().setViewEmpId("");
-        getSupportFragmentManager().popBackStack("primary", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        hideBackButton();
+        closeRegistration();
+        closeEmpView();
+        getSupportFragmentManager().popBackStack(isSplitLayoutActive() ? "secondary" : "primary", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        closeRegistration();
+        closeEmpView();
+        super.onBackPressed();
     }
 
     @Override
@@ -97,11 +121,14 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
 
     @Override
     public void onClose() {
+        simulateBackPressed();
+    }
+
+    private void closeRegistration() {
         Database.getInstance().setEditActive(false);
-        if (isSplitLayoutActive()) {
-            getSupportFragmentManager().popBackStack("secondary", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        } else {
-            simulateBackPressed();
-        }
+    }
+
+    private void closeEmpView() {
+        Database.getInstance().setViewEmpId("");
     }
 }
