@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public abstract class Employee {
+    private static int EMP_COUNT = 0;
     static final double DEFAULT_OCCUPATION_RATE = 100;
 
     private final String empId;
@@ -23,7 +24,16 @@ public abstract class Employee {
         this.role = role;
         this.vehicle = vehicle;
 
+        incrementEmpCount();
         System.out.println("We have a new employee: " + getName() + ", a " + getRole() + ".");
+    }
+
+    public static int getEmpCount() {
+        return EMP_COUNT;
+    }
+
+    public static void incrementEmpCount() {
+        EMP_COUNT++;
     }
 
     public String getEmpId() {

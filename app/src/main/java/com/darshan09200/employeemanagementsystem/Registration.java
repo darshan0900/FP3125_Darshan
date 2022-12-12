@@ -160,7 +160,6 @@ public class Registration {
     }
 
     public void resetFields() {
-//        empId = "EMP-001";
         empId = Database.getInstance().getNewEmpId();
         firstName = "";
         lastName = "";

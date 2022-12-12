@@ -1,6 +1,7 @@
 package com.darshan09200.employeemanagementsystem;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentDetailsBinding;
 
 interface OnDetailsActionListener {
     void onEdit();
+
+    void onDelete();
 
     void onClose();
 }
@@ -43,6 +47,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         binding = FragmentDetailsBinding.inflate(inflater, container, false);
         setupData();
         binding.edit.setOnClickListener(this);
+        binding.delete.setOnClickListener(this);
         binding.close.setOnClickListener(this);
         return binding.getRoot();
     }
@@ -108,10 +113,25 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                 setupEditData();
                 detailsActionListener.onEdit();
                 break;
+            case R.id.delete:
+                onDelete();
+                break;
             case R.id.close:
                 detailsActionListener.onClose();
                 break;
         }
+    }
+
+    public void onDelete() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Employee")
+                .setMessage("Are you sure you want to delete " + employee.getEmpId() + "?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    Database.getInstance().deleteEmployee(employee);
+                    detailsActionListener.onDelete();
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
     }
 
     private void setupEditData() {

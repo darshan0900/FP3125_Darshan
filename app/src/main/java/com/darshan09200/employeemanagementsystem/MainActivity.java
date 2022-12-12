@@ -16,12 +16,15 @@ import android.widget.Toast;
 
 import com.darshan09200.employeemanagementsystem.databinding.ActivityMainBinding;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, OnRegistrationActionListener, OnDetailsActionListener {
 
     ActivityMainBinding binding;
 
+    MenuItem searchViewItem;
     SearchView searchView;
 
     @Override
@@ -58,6 +61,58 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 }
             }
         });
+
+        Database.getInstance().addEmployee(
+                new Manager(
+                        "EMP-001",
+                        "Darshan Jain",
+                        LocalDate.of(2006, 12, 11),
+                        68.0,
+                        1000.0,
+                        98,
+                        new Motorcycle(
+                                VehicleMake.KAWASAKI,
+                                "567-098",
+                                VehicleColor.BLACK,
+                                VehicleCategory.RACE_MOTORCYCLE,
+                                true
+                        )
+                )
+        );
+        Database.getInstance().addEmployee(
+                new Manager(
+                        "EMP-002",
+                        "Test2 Jain",
+                        LocalDate.of(2006, 12, 11),
+                        68.0,
+                        1000.0,
+                        98,
+                        new Motorcycle(
+                                VehicleMake.KAWASAKI,
+                                "567-098",
+                                VehicleColor.BLACK,
+                                VehicleCategory.RACE_MOTORCYCLE,
+                                true
+                        )
+                )
+        );
+        Database.getInstance().addEmployee(
+                new Manager(
+                        "EMP-003",
+                        "Test1 Jain",
+                        LocalDate.of(2006, 12, 11),
+                        68.0,
+                        1000.0,
+                        98,
+                        new Motorcycle(
+                                VehicleMake.KAWASAKI,
+                                "567-098",
+                                VehicleColor.BLACK,
+                                VehicleCategory.RACE_MOTORCYCLE,
+                                true
+                        )
+                )
+        );
     }
 
     private void emptyFragmentStack(String name) {
@@ -75,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onFabClick() {
+        searchView.setIconified(true);
+        searchView.setIconified(true);
+
         if (isSplitLayoutActive()) {
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).addToBackStack("secondary").commit();
         } else {
@@ -94,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onItemClick() {
+        searchView.setIconified(true);
+        searchView.setIconified(true);
         if (isSplitLayoutActive()) {
             refreshViewData(true);
         } else {
@@ -188,6 +248,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     @Override
+    public void onDelete() {
+        searchView.setIconified(true);
+        onSubmit();
+    }
+
+    @Override
     public void onEdit() {
         onFabClick();
     }
@@ -205,8 +271,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        MenuItem searchViewItem = menu.findItem(R.id.search_bar);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchViewItem = menu.findItem(R.id.search_bar);
+        searchView = (SearchView) searchViewItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

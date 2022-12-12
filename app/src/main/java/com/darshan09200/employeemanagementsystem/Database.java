@@ -13,23 +13,6 @@ public class Database {
 
     private Database() {
         employees = new ArrayList<>();
-//        addEmployee(
-//                new Manager(
-//                        "EMP-001",
-//                        "Darshan Jain",
-//                        LocalDate.of(2006, 12, 11),
-//                        68.0,
-//                        1000.0,
-//                        98,
-//                        new Motorcycle(
-//                                VehicleMake.KAWASAKI,
-//                                "567-098",
-//                                VehicleColor.BLACK,
-//                                VehicleCategory.RACE_MOTORCYCLE,
-//                                true
-//                        )
-//                )
-//        );
     }
 
     public static Database getInstance() {
@@ -60,6 +43,12 @@ public class Database {
         Registration.getInstance().setEdit(false);
     }
 
+    public void deleteEmployee(Employee employee) {
+        employees.remove(employee);
+        Registration.getInstance().resetFields();
+        Registration.getInstance().setEdit(false);
+    }
+
     public Employee getEmployee(String empId) {
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
@@ -69,7 +58,7 @@ public class Database {
     }
 
     public String getNewEmpId() {
-        return String.format("EMP-%03d", (employees.size() + 1));
+        return String.format("EMP-%03d", (Employee.getEmpCount() + 1));
     }
 
     public boolean isEditActive() {

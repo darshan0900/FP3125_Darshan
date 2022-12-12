@@ -1,7 +1,6 @@
 package com.darshan09200.employeemanagementsystem;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
 
 import android.app.Activity;
 import android.content.Context;
