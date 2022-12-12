@@ -2,13 +2,15 @@ package com.darshan09200.employeemanagementsystem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.darshan09200.employeemanagementsystem.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements OnFabClickListener {
+public class MainActivity extends AppCompatActivity implements OnFabClickListener, OnRegistrationActionListener {
 
     ActivityMainBinding binding;
 
@@ -20,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
         setContentView(binding.getRoot());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.primaryFragment, new HomeFragment()).commit();
+        if (Database.getInstance().isEditActive()) {
+            onFabClick();
+        }
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
             if (getSupportFragmentManager().getBackStackEntryCount() < 1) {
                 hideBackButton();
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
     public void onFabClick() {
         if (isSplitLayoutActive()) {
             hideBackButton();
-            getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).addToBackStack("secondary").commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -43,8 +48,8 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
                             R.anim.from_left,
                             R.anim.to_right
                     )
-                    .replace(R.id.primaryFragment, new RegistrationFragment())
-                    .addToBackStack(null)
+                    .add(R.id.primaryFragment, new RegistrationFragment())
+                    .addToBackStack("primary")
                     .commit();
         }
     }
@@ -66,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
     }
 
     private void simulateBackPressed() {
-        getSupportFragmentManager().popBackStack();
+        Database.getInstance().setEditActive(false);
+        Database.getInstance().setViewEmpId("");
+        getSupportFragmentManager().popBackStack("primary", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         hideBackButton();
     }
 
@@ -76,5 +83,25 @@ public class MainActivity extends AppCompatActivity implements OnFabClickListene
             simulateBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSubmit() {
+        onClose();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
+        if (fragment instanceof HomeFragment) {
+            HomeFragment homeFragment = (HomeFragment) fragment;
+            homeFragment.refreshData();
+        }
+    }
+
+    @Override
+    public void onClose() {
+        Database.getInstance().setEditActive(false);
+        if (isSplitLayoutActive()) {
+            getSupportFragmentManager().popBackStack("secondary", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        } else {
+            simulateBackPressed();
+        }
     }
 }
