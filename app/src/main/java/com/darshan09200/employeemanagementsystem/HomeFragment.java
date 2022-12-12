@@ -1,29 +1,36 @@
 package com.darshan09200.employeemanagementsystem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
 
-interface OnFabClickListener {
+interface OnClickListener {
     void onFabClick();
+
+    void onItemClick();
 }
 
 public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
-    OnFabClickListener fabClickListener;
+    OnClickListener clickListener;
 
     ArrayList<Employee> employees;
     ArrayAdapter<Employee> adapter;
@@ -32,11 +39,11 @@ public class HomeFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof OnFabClickListener) {
-            fabClickListener = (OnFabClickListener) context;
+        if (context instanceof OnClickListener) {
+            clickListener = (OnClickListener) context;
         } else {
             throw new ClassCastException(context
-                    + "must implement OnFabClickListener interface"
+                    + "must implement OnClickListener interface"
             );
         }
     }
@@ -47,7 +54,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
         employees = new ArrayList<>();
-        employees.addAll(Database.getInstance().getEmployees());
         adapter = new ArrayAdapter<Employee>(getContext(), android.R.layout.simple_list_item_2, android.R.id.text1, employees) {
             @NonNull
             @Override
@@ -63,14 +69,15 @@ public class HomeFragment extends Fragment {
         };
         adapter.setNotifyOnChange(true);
         binding.listView.setAdapter(adapter);
+        refreshData();
+        binding.listView.setEmptyView(binding.noRecords);
         binding.listView.setOnItemClickListener((parent, view, position, id) -> {
-//            Employee employee = (Employee) parent.getItemAtPosition(position);
-//            Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-//            intent.putExtra("empId", employee.getEmpId());
-//            startActivity(intent);
+            Employee employee = (Employee) parent.getItemAtPosition(position);
+            Database.getInstance().setViewEmpId(employee.getEmpId());
+            clickListener.onItemClick();
         });
 
-        binding.addEmployee.setOnClickListener(v -> fabClickListener.onFabClick());
+        binding.addEmployee.setOnClickListener(v -> clickListener.onFabClick());
 
         return binding.getRoot();
     }
@@ -78,6 +85,33 @@ public class HomeFragment extends Fragment {
     public void refreshData() {
         employees.clear();
         employees.addAll(Database.getInstance().getEmployees());
+        if (employees.size() == 0)
+            binding.noRecords.setText("Use the '+' icon to add a new employee");
+        else binding.noRecords.setText("No Records Found");
         adapter.notifyDataSetChanged();
+    }
+
+    public void filterItems(String input, boolean showToast) {
+        String text = input.trim().toLowerCase();
+
+        System.out.println(input);
+
+        if (text.length() == 0) {
+            refreshData();
+            return;
+        }
+        ArrayList<Employee> allEmployeesData = Database.getInstance().getEmployees();
+        ArrayList<Employee> filteredEmployees = new ArrayList<>();
+        allEmployeesData.forEach(employee -> {
+            if (employee.getName().toLowerCase().indexOf(text) > -1 || employee.getRole().getLabel().toLowerCase().indexOf(text) > -1)
+                filteredEmployees.add(employee);
+        });
+        employees.clear();
+        employees.addAll(filteredEmployees);
+        adapter.notifyDataSetChanged();
+
+        if (showToast && filteredEmployees.size() == 0) {
+            Toast.makeText(getActivity(), "Not found", Toast.LENGTH_LONG).show();
+        }
     }
 }

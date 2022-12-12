@@ -19,7 +19,7 @@ public abstract class Employee {
         this.name = name;
         this.dob = dob;
         this.occupationRate = formatOccupationRate(occupationRate);
-        this.occupationRate = monthlySalary;
+        this.monthlySalary = monthlySalary;
         this.role = role;
         this.vehicle = vehicle;
 

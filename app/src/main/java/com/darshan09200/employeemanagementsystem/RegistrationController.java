@@ -150,7 +150,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
     }
 
     public void resetUI() {
-        binding.empId.setText(Database.getInstance().getNewEmpId());
+        binding.empId.setText(Registration.getInstance().getEmpId());
 
         binding.firstName.setText(Registration.getInstance().getFirstName());
         binding.lastName.setText(Registration.getInstance().getLastName());
@@ -346,7 +346,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
     }
 
     private void validate() {
-        String empId = Database.getInstance().getNewEmpId();
+        String empId = Registration.getInstance().getEmpId();
         String firstName = Registration.getInstance().getFirstName().trim();
         String lastName = Registration.getInstance().getLastName().trim();
         LocalDate dob = Registration.getInstance().getDob();
@@ -436,7 +436,10 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
                         Double.parseDouble(monthlySalary), Integer.parseInt(bonusValue), vehicle);
             }
             System.out.println(monthlySalary);
-            Database.getInstance().addEmployee(employee);
+            if (Registration.getInstance().isEdit())
+                Database.getInstance().updateEmployee(employee);
+            else
+                Database.getInstance().addEmployee(employee);
             registrationActionListener.onSubmit();
         }
     }

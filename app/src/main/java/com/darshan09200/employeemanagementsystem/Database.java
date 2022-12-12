@@ -13,23 +13,23 @@ public class Database {
 
     private Database() {
         employees = new ArrayList<>();
-        addEmployee(
-                new Manager(
-                        "EMP-001",
-                        "Darshan Jain",
-                        LocalDate.of(2006, 12, 11),
-                        7968.0,
-                        0.0,
-                        98,
-                        new Motorcycle(
-                                VehicleMake.KAWASAKI,
-                                "567-098",
-                                VehicleColor.BLACK,
-                                VehicleCategory.RACE_MOTORCYCLE,
-                                true
-                        )
-                )
-        );
+//        addEmployee(
+//                new Manager(
+//                        "EMP-001",
+//                        "Darshan Jain",
+//                        LocalDate.of(2006, 12, 11),
+//                        68.0,
+//                        1000.0,
+//                        98,
+//                        new Motorcycle(
+//                                VehicleMake.KAWASAKI,
+//                                "567-098",
+//                                VehicleColor.BLACK,
+//                                VehicleCategory.RACE_MOTORCYCLE,
+//                                true
+//                        )
+//                )
+//        );
     }
 
     public static Database getInstance() {
@@ -46,6 +46,18 @@ public class Database {
     public void addEmployee(Employee employee) {
         employees.add(0, employee);
         Registration.getInstance().resetFields();
+    }
+
+    public void updateEmployee(Employee employee) {
+        for (int i = 0; i < employees.size(); i++) {
+            Employee item = employees.get(i);
+            if (item.getEmpId().equals(employee.getEmpId())) {
+                employees.set(i, employee);
+                break;
+            }
+        }
+        Registration.getInstance().resetFields();
+        Registration.getInstance().setEdit(false);
     }
 
     public Employee getEmployee(String empId) {

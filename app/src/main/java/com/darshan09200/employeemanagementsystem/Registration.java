@@ -131,6 +131,9 @@ enum VehicleColor implements EnhancedEnum {
 public class Registration {
     private static Registration instance;
 
+    private boolean isEdit = false;
+
+    private String empId;
     private String firstName;
     private String lastName;
     private LocalDate dob;
@@ -156,7 +159,9 @@ public class Registration {
         return instance;
     }
 
-    public void resetFields(){
+    public void resetFields() {
+//        empId = "EMP-001";
+        empId = Database.getInstance().getNewEmpId();
         firstName = "";
         lastName = "";
         dob = LocalDate.now().minusYears(16);
@@ -171,6 +176,22 @@ public class Registration {
         vehicleColor = VehicleColor.CHOOSE_COLOR;
         isSidecarChecked = false;
         vehiclePlate = "";
+    }
+
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 
     public String getFirstName() {

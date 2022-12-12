@@ -21,7 +21,6 @@ import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistratio
 
 interface OnRegistrationActionListener {
     void onSubmit();
-
     void onClose();
 }
 
