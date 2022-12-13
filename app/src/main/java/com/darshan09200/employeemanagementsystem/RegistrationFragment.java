@@ -68,9 +68,9 @@ public class RegistrationFragment extends Fragment implements ActivityResultCall
         } else {
             setupUI(getActivity().findViewById(R.id.main_parent));
         }
-        binding.profileImage.setOnClickListener(view -> {
-            openImagePicker();
-        });
+//        binding.profileImage.setOnClickListener(view -> {
+//            openImagePicker();
+//        });
         loadImage();
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
         return binding.getRoot();
@@ -121,7 +121,6 @@ public class RegistrationFragment extends Fragment implements ActivityResultCall
     public void onActivityResult(ActivityResult result) {
         if (result.getResultCode() == Activity.RESULT_OK) {
             Intent data = result.getData();
-            // do your operation from here....
             if (data != null && data.getData() != null) {
                 Uri selectedImageUri = data.getData();
                 Bitmap selectedImageBitmap;
@@ -140,7 +139,6 @@ public class RegistrationFragment extends Fragment implements ActivityResultCall
     }
 
     private String saveImage(Bitmap finalBitmap) {
-
         String root = getActivity().getFilesDir().toString();
         File myDir = new File(root + "/saved_images");
         myDir.mkdirs();

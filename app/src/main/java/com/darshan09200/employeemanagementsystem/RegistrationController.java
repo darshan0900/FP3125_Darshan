@@ -390,52 +390,70 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
         String msg = "";
         if (firstName.isEmpty()) {
             binding.firstName.setError("Please enter first name");
-            binding.firstName.requestFocus();
+            if (!error)
+                binding.firstName.requestFocus();
             error = true;
-        } else if (lastName.isEmpty()) {
+        }
+        if (lastName.isEmpty()) {
             binding.lastName.setError("Please enter last name");
-            binding.lastName.requestFocus();
+            if (!error)
+                binding.lastName.requestFocus();
             error = true;
-        } else if (monthlySalary.isEmpty()) {
+        }
+        if (monthlySalary.isEmpty()) {
             binding.monthlySalary.setError("Please enter monthly salary");
-            binding.monthlySalary.requestFocus();
+            if (!error)
+                binding.monthlySalary.requestFocus();
             error = true;
         } else if (!isNumeric(monthlySalary)) {
             binding.monthlySalary.setError("Please enter valid monthly salary");
-            binding.monthlySalary.requestFocus();
+            if (!error)
+                binding.monthlySalary.requestFocus();
             error = true;
-        } else if (occupationRate.isEmpty()) {
+        }
+        if (occupationRate.isEmpty()) {
             binding.occupationRate.setError("Please enter occupation rate");
-            binding.occupationRate.requestFocus();
+            if (!error)
+                binding.occupationRate.requestFocus();
             error = true;
         } else if (!isNumeric(occupationRate)) {
             binding.occupationRate.setError("Please enter valid occupation rate");
-            binding.occupationRate.requestFocus();
+            if (!error)
+                binding.occupationRate.requestFocus();
             error = true;
-        } else if (bonusValue.isEmpty()) {
+        }
+        if (bonusValue.isEmpty()) {
             binding.bonus.setError("Please enter value");
-            binding.bonus.requestFocus();
+            if (!error)
+                binding.bonus.requestFocus();
             error = true;
         } else if (!isNumeric(bonusValue)) {
             binding.bonus.setError("Please enter valid value");
-            binding.bonus.requestFocus();
+            if (!error)
+                binding.bonus.requestFocus();
             error = true;
-        } else if (vehicleMake == VehicleMake.CHOOSE_MAKE)
-            msg = VehicleMake.CHOOSE_MAKE.getLabel();
-        else if (vehicleCategory == VehicleCategory.CHOSE_CATEGORY)
-            msg = VehicleCategory.CHOSE_CATEGORY.getLabel();
-        else if (vehicleKind == VehicleKind.CAR && vehicleType == VehicleType.CHOOSE_TYPE)
-            msg = VehicleType.CHOOSE_TYPE.getLabel();
-        else if (vehicleColor == VehicleColor.CHOOSE_COLOR)
-            msg = VehicleColor.CHOOSE_COLOR.getLabel();
-        else if (vehiclePlate.isEmpty()) {
+        }
+        if (vehiclePlate.isEmpty()) {
             binding.vehiclePlate.setError("Please enter vehicle plate number");
-            binding.vehiclePlate.requestFocus();
+            if (!error)
+                binding.vehiclePlate.requestFocus();
             error = true;
-        } else if (!isValidPlateNumber(vehiclePlate)) {
+        }
+        if (!isValidPlateNumber(vehiclePlate)) {
             binding.vehiclePlate.setError("Please enter valid vehicle plate number");
-            binding.vehiclePlate.requestFocus();
+            if (!error)
+                binding.vehiclePlate.requestFocus();
             error = true;
+        }
+        if (!error) {
+            if (vehicleMake == VehicleMake.CHOOSE_MAKE)
+                msg = VehicleMake.CHOOSE_MAKE.getLabel();
+            else if (vehicleCategory == VehicleCategory.CHOSE_CATEGORY)
+                msg = VehicleCategory.CHOSE_CATEGORY.getLabel();
+            else if (vehicleKind == VehicleKind.CAR && vehicleType == VehicleType.CHOOSE_TYPE)
+                msg = VehicleType.CHOOSE_TYPE.getLabel();
+            else if (vehicleColor == VehicleColor.CHOOSE_COLOR)
+                msg = VehicleColor.CHOOSE_COLOR.getLabel();
         }
         if (msg.length() > 0) {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();

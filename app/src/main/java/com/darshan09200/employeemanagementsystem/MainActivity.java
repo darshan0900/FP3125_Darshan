@@ -324,6 +324,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 if (fragment instanceof HomeFragment) {
                     HomeFragment homeFragment = (HomeFragment) fragment;
                     homeFragment.filterItems(query, true);
+                    return true;
                 }
                 return false;
             }
@@ -334,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 if (fragment instanceof HomeFragment) {
                     HomeFragment homeFragment = (HomeFragment) fragment;
                     homeFragment.filterItems(newText, false);
+                    return true;
                 }
                 return false;
             }
