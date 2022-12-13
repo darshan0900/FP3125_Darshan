@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.SearchView;
 
 import com.darshan09200.employeemanagementsystem.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 
@@ -283,6 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onSubmit() {
+        showSnackbar("Employee saved successfully");
         playSound(R.raw.sucess_sound);
         onClose();
         refreshEmployeeListData();
@@ -290,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onDelete() {
+        showSnackbar("Employee deleted successfully");
         playSound(R.raw.delete_sound);
         clearSearch();
         onClose();
@@ -361,5 +364,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             mediaPlayer.release();
         });
         mediaPlayer.start();
+    }
+
+
+    private void showSnackbar(String msg) {
+        if (msg.length() > 0) {
+            Snackbar.make(binding.mainParent, msg, Snackbar.LENGTH_LONG).show();
+        }
     }
 }

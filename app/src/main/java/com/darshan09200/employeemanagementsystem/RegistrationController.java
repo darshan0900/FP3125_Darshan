@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistrationBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -456,7 +457,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
                 msg = VehicleColor.CHOOSE_COLOR.getLabel();
         }
         if (msg.length() > 0) {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+            showSnackbar(msg);
         } else if (!error) {
             Employee employee;
             Vehicle vehicle;
@@ -483,6 +484,12 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             else
                 Database.getInstance().addEmployee(employee);
             registrationActionListener.onSubmit();
+        }
+    }
+
+    private void showSnackbar(String msg) {
+        if (msg.length() > 0) {
+            Snackbar.make(binding.parent, msg, Snackbar.LENGTH_LONG).show();
         }
     }
 }
