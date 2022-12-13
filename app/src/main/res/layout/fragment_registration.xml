@@ -4,7 +4,8 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/screen_background_light">
+    android:background="@color/background"
+    android:theme="@style/Theme.EmployeeManagementSystem">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +40,7 @@
                 android:maxLines="1"
                 android:minHeight="48dp"
                 android:text="EMP-123"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -123,7 +124,7 @@
                         android:minHeight="48dp"
                         android:text="DD/MM/YYYY"
                         android:textAllCaps="true"
-                        android:textColor="@color/black"
+                        android:textColor="@color/text"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -285,6 +286,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:buttonTint="@color/primary"
                         android:text="Car" />
 
                     <RadioButton
@@ -292,6 +294,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:buttonTint="@color/primary"
                         android:text="Motorbike" />
                 </RadioGroup>
                 <!--        Vehicle Make-->
@@ -381,6 +384,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:buttonTint="@color/primary"
                         android:text="Yes"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -413,19 +417,21 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:text="Submit" />
+            android:text="Submit"
+            android:textColor="@android:color/white" />
+
         <TextView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="8dp"
-            android:textColor="@color/error"
-            android:textStyle="bold"
-            android:textAllCaps="true"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:text="Close" />
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp"
+            android:text="Close"
+            android:textAllCaps="true"
+            android:textColor="@color/error"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

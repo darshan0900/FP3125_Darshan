@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
@@ -32,7 +33,7 @@ public class HomeFragment extends Fragment {
     FragmentHomeBinding binding;
     OnClickListener clickListener;
 
-    ArrayList<Employee> employees;
+    ArrayList<Employee> employees = new ArrayList<>();
     ArrayAdapter<Employee> adapter;
 
     @Override
@@ -53,7 +54,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        employees = new ArrayList<>();
         adapter = new ArrayAdapter<Employee>(getContext(), android.R.layout.simple_list_item_2, android.R.id.text1, employees) {
             @NonNull
             @Override
@@ -64,6 +64,16 @@ public class HomeFragment extends Fragment {
                 Employee employee = getItem(position);
                 text1.setText(employee.getName());
                 text2.setText(employee.getRole().getLabel());
+                String activeEmpId = Database.getInstance().getViewEmpId();
+                if (activeEmpId.length() > 0 && activeEmpId.equals(employee.getEmpId())) {
+                    text1.setTextColor(ContextCompat.getColor(getContext(), R.color.primary));
+                    text2.setTextColor(ContextCompat.getColor(getContext(), R.color.primary));
+                    text2.setAlpha(0.5f);
+                } else {
+                    text1.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
+                    text2.setTextColor(ContextCompat.getColor(getContext(), R.color.textLight));
+                    ;
+                }
                 return view;
             }
         };
@@ -85,10 +95,12 @@ public class HomeFragment extends Fragment {
     public void refreshData() {
         employees.clear();
         employees.addAll(Database.getInstance().getEmployees());
-        if (employees.size() == 0)
-            binding.noRecords.setText("Use the '+' icon to add a new employee");
-        else binding.noRecords.setText("No Records Found");
-        adapter.notifyDataSetChanged();
+        if (binding != null) {
+            if (employees.size() == 0)
+                binding.noRecords.setText("Use the '+' icon to add a new employee");
+            else binding.noRecords.setText("No Records Found");
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public void filterItems(String input, boolean showToast) {

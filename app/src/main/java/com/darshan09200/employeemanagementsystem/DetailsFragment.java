@@ -1,7 +1,6 @@
 package com.darshan09200.employeemanagementsystem;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,61 +48,73 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         binding.edit.setOnClickListener(this);
         binding.delete.setOnClickListener(this);
         binding.close.setOnClickListener(this);
+        if (!isSplitLayoutActive()) {
+            binding.close.setVisibility(View.GONE);
+        }
         return binding.getRoot();
+    }
+
+    private boolean isSplitLayoutActive() {
+        return getResources().getBoolean(R.bool.isSplitLayoutActive);
     }
 
     public void setupData() {
         employee = Database.getInstance().getEmployee(Database.getInstance().getViewEmpId());
 
-        if (employee != null) {
-            binding.empId.setText(employee.getEmpId());
-            binding.name.setText(employee.getName());
-            binding.age.setText(String.valueOf(employee.getAge()));
-            binding.role.setText(employee.getRole().getLabel());
-            double annualIncome = 0;
-            String bonusLabel = "";
-            int bonusValue = 0;
-            if (employee instanceof Manager) {
-                Manager manager = (Manager) employee;
-                annualIncome = manager.getAnnualIncome();
-                bonusLabel = "Clients";
-                bonusValue = manager.getNbClients();
-            } else if (employee instanceof Programmer) {
-                Programmer programmer = (Programmer) employee;
-                annualIncome = programmer.getAnnualIncome();
-                bonusLabel = "Projects";
-                bonusValue = programmer.getNbProjects();
-            } else if (employee instanceof Tester) {
-                Tester tester = (Tester) employee;
-                annualIncome = tester.getAnnualIncome();
-                bonusLabel = "Bugs";
-                bonusValue = tester.getNbBugs();
-            }
-            binding.annualIncome.setText(String.format("$ %.2f", annualIncome));
-            binding.bonusLabel.setText(String.format("Number of %s", bonusLabel));
-            binding.bonus.setText(String.format("%d", bonusValue));
+        if (binding != null) {
+            if (employee != null) {
+                binding.empId.setText(employee.getEmpId());
+                binding.name.setText(employee.getName());
+                binding.age.setText(String.valueOf(employee.getAge()));
+                binding.role.setText(employee.getRole().getLabel());
+                double annualIncome = 0;
+                String bonusLabel = "";
+                int bonusValue = 0;
+                if (employee instanceof Manager) {
+                    Manager manager = (Manager) employee;
+                    annualIncome = manager.getAnnualIncome();
+                    bonusLabel = "Clients";
+                    bonusValue = manager.getNbClients();
+                } else if (employee instanceof Programmer) {
+                    Programmer programmer = (Programmer) employee;
+                    annualIncome = programmer.getAnnualIncome();
+                    bonusLabel = "Projects";
+                    bonusValue = programmer.getNbProjects();
+                } else if (employee instanceof Tester) {
+                    Tester tester = (Tester) employee;
+                    annualIncome = tester.getAnnualIncome();
+                    bonusLabel = "Bugs";
+                    bonusValue = tester.getNbBugs();
+                }
+                binding.annualIncome.setText(String.format("$ %.2f", annualIncome));
+                binding.bonusLabel.setText(String.format("Number of %s", bonusLabel));
+                binding.bonus.setText(String.format("%d", bonusValue));
 
-            Vehicle vehicle = employee.getVehicle();
+                Vehicle vehicle = employee.getVehicle();
 
-            binding.vehicleMake.setText(vehicle.getMake().getLabel());
-            binding.vehicleCategory.setText(vehicle.getCategory().getLabel());
-            binding.vehicleColor.setText(vehicle.getColor().getLabel());
-            binding.vehiclePlate.setText(vehicle.getPlate());
+                binding.vehicleMake.setText(vehicle.getMake().getLabel());
+                binding.vehicleCategory.setText(vehicle.getCategory().getLabel());
+                binding.vehicleColor.setText(vehicle.getColor().getLabel());
+                binding.vehiclePlate.setText(vehicle.getPlate());
 
-            if (vehicle instanceof Car) {
-                Car car = (Car) vehicle;
-                binding.vehicleKind.setText(VehicleKind.CAR.getLabel());
-                binding.vehicleExtrasLabel.setText("Vehicle Type");
-                binding.vehicleExtras.setText(car.getType().getLabel());
-            } else if (vehicle instanceof Motorcycle) {
-                Motorcycle motorcycle = (Motorcycle) vehicle;
-                binding.vehicleKind.setText(VehicleKind.MOTORCYCLE.getLabel());
-                binding.vehicleExtrasLabel.setText("Sidecar");
-                binding.vehicleExtras.setText(motorcycle.isSidecar() ? "Yes" : "No");
+                if (vehicle instanceof Car) {
+                    Car car = (Car) vehicle;
+                    binding.vehicleKind.setText(VehicleKind.CAR.getLabel());
+                    binding.vehicleExtrasLabel.setText("Vehicle Type");
+                    binding.vehicleExtras.setText(car.getType().getLabel());
+                } else if (vehicle instanceof Motorcycle) {
+                    Motorcycle motorcycle = (Motorcycle) vehicle;
+                    binding.vehicleKind.setText(VehicleKind.MOTORCYCLE.getLabel());
+                    binding.vehicleExtrasLabel.setText("Sidecar");
+                    binding.vehicleExtras.setText(motorcycle.isSidecar() ? "Yes" : "No");
+                }
+            } else {
+                detailsActionListener.onClose();
             }
         } else {
-            detailsActionListener.onClose();
+
         }
+
     }
 
     @Override

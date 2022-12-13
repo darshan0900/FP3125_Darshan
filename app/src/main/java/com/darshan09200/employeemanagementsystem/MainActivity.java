@@ -2,7 +2,6 @@ package com.darshan09200.employeemanagementsystem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -12,13 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.darshan09200.employeemanagementsystem.databinding.ActivityMainBinding;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, OnRegistrationActionListener, OnDetailsActionListener {
 
@@ -26,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     MenuItem searchViewItem;
     SearchView searchView;
+
+    private int searchVisibility = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,57 +60,59 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             }
         });
 
-        Database.getInstance().addEmployee(
-                new Manager(
-                        "EMP-001",
-                        "Darshan Jain",
-                        LocalDate.of(2006, 12, 11),
-                        68.0,
-                        1000.0,
-                        98,
-                        new Motorcycle(
-                                VehicleMake.KAWASAKI,
-                                "567-098",
-                                VehicleColor.BLACK,
-                                VehicleCategory.RACE_MOTORCYCLE,
-                                true
-                        )
-                )
-        );
-        Database.getInstance().addEmployee(
-                new Manager(
-                        "EMP-002",
-                        "Test2 Jain",
-                        LocalDate.of(2006, 12, 11),
-                        68.0,
-                        1000.0,
-                        98,
-                        new Motorcycle(
-                                VehicleMake.KAWASAKI,
-                                "567-098",
-                                VehicleColor.BLACK,
-                                VehicleCategory.RACE_MOTORCYCLE,
-                                true
-                        )
-                )
-        );
-        Database.getInstance().addEmployee(
-                new Manager(
-                        "EMP-003",
-                        "Test1 Jain",
-                        LocalDate.of(2006, 12, 11),
-                        68.0,
-                        1000.0,
-                        98,
-                        new Motorcycle(
-                                VehicleMake.KAWASAKI,
-                                "567-098",
-                                VehicleColor.BLACK,
-                                VehicleCategory.RACE_MOTORCYCLE,
-                                true
-                        )
-                )
-        );
+        if (Database.getInstance().getEmployees().size() == 0) {
+            Database.getInstance().addEmployee(
+                    new Manager(
+                            "EMP-001",
+                            "Darshan Jain",
+                            LocalDate.of(2006, 12, 11),
+                            68.0,
+                            1000.0,
+                            98,
+                            new Motorcycle(
+                                    VehicleMake.KAWASAKI,
+                                    "567-098",
+                                    VehicleColor.BLACK,
+                                    VehicleCategory.RACE_MOTORCYCLE,
+                                    true
+                            )
+                    )
+            );
+            Database.getInstance().addEmployee(
+                    new Manager(
+                            "EMP-002",
+                            "Test2 Jain",
+                            LocalDate.of(2006, 12, 11),
+                            68.0,
+                            1000.0,
+                            98,
+                            new Motorcycle(
+                                    VehicleMake.KAWASAKI,
+                                    "567-098",
+                                    VehicleColor.BLACK,
+                                    VehicleCategory.RACE_MOTORCYCLE,
+                                    true
+                            )
+                    )
+            );
+            Database.getInstance().addEmployee(
+                    new Manager(
+                            "EMP-003",
+                            "Test1 Jain",
+                            LocalDate.of(2006, 12, 11),
+                            68.0,
+                            1000.0,
+                            98,
+                            new Motorcycle(
+                                    VehicleMake.KAWASAKI,
+                                    "567-098",
+                                    VehicleColor.BLACK,
+                                    VehicleCategory.RACE_MOTORCYCLE,
+                                    true
+                            )
+                    )
+            );
+        }
     }
 
     private void emptyFragmentStack(String name) {
@@ -130,8 +130,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onFabClick() {
-        searchView.setIconified(true);
-        searchView.setIconified(true);
+        clearSearch();
 
         if (isSplitLayoutActive()) {
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).addToBackStack("secondary").commit();
@@ -152,10 +151,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onItemClick() {
-        searchView.setIconified(true);
-        searchView.setIconified(true);
+        clearSearch();
         if (isSplitLayoutActive()) {
-            refreshViewData(true);
+            refreshEmployeeListData();
+            refreshEmployeeViewData(true);
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
-    private void refreshViewData(boolean navigate) {
+    private void refreshEmployeeViewData(boolean navigate) {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.secondaryFragment);
         if (fragment instanceof DetailsFragment) {
             DetailsFragment detailsFragment = (DetailsFragment) fragment;
@@ -182,16 +181,39 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
     }
 
+    private void refreshEmployeeListData() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
+        if (fragment instanceof HomeFragment) {
+            HomeFragment homeFragment = (HomeFragment) fragment;
+            homeFragment.refreshData();
+        }
+    }
+
     private boolean isSplitLayoutActive() {
         return getResources().getBoolean(R.bool.isSplitLayoutActive);
     }
 
     private void showSearch() {
-        searchView.setVisibility(View.VISIBLE);
+        System.out.println("called show");
+        if (searchViewItem != null)
+            searchViewItem.setVisible(true);
+        else
+            searchVisibility = View.VISIBLE;
     }
 
     private void hideSearch() {
-        searchView.setVisibility(View.GONE);
+        System.out.println("called hide");
+        if (searchViewItem != null)
+            searchViewItem.setVisible(false);
+        else
+            searchVisibility = View.GONE;
+    }
+
+    private void clearSearch() {
+        if (searchView != null) {
+            searchView.setIconified(true);
+            searchView.setIconified(true);
+        }
     }
 
     private void showBackButton() {
@@ -226,7 +248,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             Database.getInstance().setViewEmpId("");
         }
         super.onBackPressed();
-        refreshViewData(false);
+        refreshEmployeeListData();
+        refreshEmployeeViewData(false);
     }
 
     @Override
@@ -240,11 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     public void onSubmit() {
         onClose();
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
-        if (fragment instanceof HomeFragment) {
-            HomeFragment homeFragment = (HomeFragment) fragment;
-            homeFragment.refreshData();
-        }
+        refreshEmployeeListData();
     }
 
     @Override
@@ -269,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        System.out.println("menu called");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         searchViewItem = menu.findItem(R.id.search_bar);
@@ -295,6 +315,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 return false;
             }
         });
+
+        if (searchVisibility != -1) {
+            searchViewItem.setVisible(searchVisibility == View.VISIBLE);
+            searchVisibility = -1;
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
