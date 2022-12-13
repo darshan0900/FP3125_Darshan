@@ -6,8 +6,8 @@ public class Tester extends Employee {
     static final double GAIN_FACTOR_ERROR = 10;
     private int nbBugs;
 
-    public Tester(String empId, String name, LocalDate dob, double occupationRate, double monthlySalary, int nbBugs, Vehicle vehicle) {
-        super(empId, name, dob, occupationRate, monthlySalary, EmployeeType.TESTER, vehicle);
+    public Tester(String profileImage, String empId, String firstName, String lastName, LocalDate dob, double occupationRate, double monthlySalary, int nbBugs, Vehicle vehicle) {
+        super(profileImage, empId, firstName, lastName, dob, occupationRate, monthlySalary, EmployeeType.TESTER, vehicle);
         this.nbBugs = nbBugs;
     }
 

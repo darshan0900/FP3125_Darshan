@@ -7,17 +7,21 @@ public abstract class Employee {
     private static int EMP_COUNT = 0;
     static final double DEFAULT_OCCUPATION_RATE = 100;
 
+    private String profileImage;
     private final String empId;
-    private final String name;
+    private final String firstName;
+    private final String lastName;
     private LocalDate dob;
     private double occupationRate;
     private double monthlySalary;
     private EmployeeType role;
     private Vehicle vehicle;
 
-    public Employee(String empId, String name, LocalDate dob, double occupationRate, double monthlySalary, EmployeeType role, Vehicle vehicle) {
+    public Employee(String profileImage, String empId, String firstName, String lastName, LocalDate dob, double occupationRate, double monthlySalary, EmployeeType role, Vehicle vehicle) {
+        this.profileImage = profileImage;
         this.empId = empId;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.dob = dob;
         this.occupationRate = formatOccupationRate(occupationRate);
         this.monthlySalary = monthlySalary;
@@ -25,7 +29,7 @@ public abstract class Employee {
         this.vehicle = vehicle;
 
         incrementEmpCount();
-        System.out.println("We have a new employee: " + getName() + ", a " + getRole() + ".");
+        System.out.println("We have a new employee: " + getFirstName() + ", a " + getRole() + ".");
     }
 
     public static int getEmpCount() {
@@ -36,12 +40,24 @@ public abstract class Employee {
         EMP_COUNT++;
     }
 
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
     public String getEmpId() {
         return empId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public LocalDate getDob() {
@@ -100,7 +116,7 @@ public abstract class Employee {
     public String toString() {
         return "Employee{" +
                 "empId='" + empId + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + firstName + '\'' +
                 ", dob=" + dob +
                 ", occupationRate=" + occupationRate +
                 ", monthlySalary=" + monthlySalary +

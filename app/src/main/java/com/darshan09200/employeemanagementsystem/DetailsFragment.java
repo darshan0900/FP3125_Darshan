@@ -1,6 +1,7 @@
 package com.darshan09200.employeemanagementsystem;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         if (context instanceof OnDetailsActionListener) {
             detailsActionListener = (OnDetailsActionListener) context;
         } else {
@@ -59,63 +59,74 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setupData() {
+        System.out.println("refreshed");
         employee = Database.getInstance().getEmployee(Database.getInstance().getViewEmpId());
 
-        if (binding != null) {
-            if (employee != null) {
-                binding.empId.setText(employee.getEmpId());
-                binding.name.setText(employee.getName());
-                binding.age.setText(String.valueOf(employee.getAge()));
-                binding.role.setText(employee.getRole().getLabel());
-                double annualIncome = 0;
-                String bonusLabel = "";
-                int bonusValue = 0;
-                if (employee instanceof Manager) {
-                    Manager manager = (Manager) employee;
-                    annualIncome = manager.getAnnualIncome();
-                    bonusLabel = "Clients";
-                    bonusValue = manager.getNbClients();
-                } else if (employee instanceof Programmer) {
-                    Programmer programmer = (Programmer) employee;
-                    annualIncome = programmer.getAnnualIncome();
-                    bonusLabel = "Projects";
-                    bonusValue = programmer.getNbProjects();
-                } else if (employee instanceof Tester) {
-                    Tester tester = (Tester) employee;
-                    annualIncome = tester.getAnnualIncome();
-                    bonusLabel = "Bugs";
-                    bonusValue = tester.getNbBugs();
-                }
-                binding.annualIncome.setText(String.format("$ %.2f", annualIncome));
-                binding.bonusLabel.setText(String.format("Number of %s", bonusLabel));
-                binding.bonus.setText(String.format("%d", bonusValue));
-
-                Vehicle vehicle = employee.getVehicle();
-
-                binding.vehicleMake.setText(vehicle.getMake().getLabel());
-                binding.vehicleCategory.setText(vehicle.getCategory().getLabel());
-                binding.vehicleColor.setText(vehicle.getColor().getLabel());
-                binding.vehiclePlate.setText(vehicle.getPlate());
-
-                if (vehicle instanceof Car) {
-                    Car car = (Car) vehicle;
-                    binding.vehicleKind.setText(VehicleKind.CAR.getLabel());
-                    binding.vehicleExtrasLabel.setText("Vehicle Type");
-                    binding.vehicleExtras.setText(car.getType().getLabel());
-                } else if (vehicle instanceof Motorcycle) {
-                    Motorcycle motorcycle = (Motorcycle) vehicle;
-                    binding.vehicleKind.setText(VehicleKind.MOTORCYCLE.getLabel());
-                    binding.vehicleExtrasLabel.setText("Sidecar");
-                    binding.vehicleExtras.setText(motorcycle.isSidecar() ? "Yes" : "No");
-                }
-            } else {
-                detailsActionListener.onClose();
+        if (binding != null && employee != null) {
+            String filepath = employee.getProfileImage();
+            System.out.println(filepath);
+            if (filepath.length() > 0) {
+                binding.profileImage.setImageBitmap(BitmapFactory.decodeFile(filepath));
             }
-        } else {
+            binding.empId.setText(employee.getEmpId());
+            binding.name.setText(employee.getFirstName() + " " + employee.getLastName());
+            binding.age.setText(String.valueOf(employee.getAge()));
+            binding.role.setText(employee.getRole().getLabel());
+            double annualIncome = 0;
+            String bonusLabel = "";
+            int bonusValue = 0;
+            if (employee instanceof Manager) {
+                Manager manager = (Manager) employee;
+                annualIncome = manager.getAnnualIncome();
+                bonusLabel = "Clients";
+                bonusValue = manager.getNbClients();
+            } else if (employee instanceof Programmer) {
+                Programmer programmer = (Programmer) employee;
+                annualIncome = programmer.getAnnualIncome();
+                bonusLabel = "Projects";
+                bonusValue = programmer.getNbProjects();
+            } else if (employee instanceof Tester) {
+                Tester tester = (Tester) employee;
+                annualIncome = tester.getAnnualIncome();
+                bonusLabel = "Bugs";
+                bonusValue = tester.getNbBugs();
+            }
+            binding.annualIncome.setText(String.format("%.2f", annualIncome));
+            binding.bonusLabel.setText(String.format("Number of %s", bonusLabel));
+            binding.bonus.setText(String.format("%d", bonusValue));
 
+            Vehicle vehicle = employee.getVehicle();
+
+            binding.vehicleMake.setText(vehicle.getMake().getLabel());
+            binding.vehicleCategory.setText(vehicle.getCategory().getLabel());
+            binding.vehicleColor.setText(vehicle.getColor().getLabel());
+            binding.vehiclePlate.setText(vehicle.getPlate());
+
+            if (vehicle instanceof Car) {
+                Car car = (Car) vehicle;
+                binding.vehicleKind.setImageResource(R.drawable.car);
+                binding.vehicleTypeLayout.setVisibility(View.VISIBLE);
+                binding.vehicleType.setText(car.getType().getLabel());
+                binding.sidecarLayout.setVisibility(View.GONE);
+            } else if (vehicle instanceof Motorcycle) {
+                Motorcycle motorcycle = (Motorcycle) vehicle;
+                binding.vehicleKind.setImageResource(R.drawable.motorcycle);
+                binding.sidecarLayout.setVisibility(View.VISIBLE);
+                binding.sidecar.setChecked(motorcycle.isSidecar());
+                binding.vehicleTypeLayout.setVisibility(View.GONE);
+            }
         }
-
     }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        System.out.println("paused");
+//        if (Database.getInstance().getViewEmpId().length() > 0 && !Registration.getInstance().isEdit()) {
+//            Database.getInstance().setViewEmpId("");
+//        }
+//    }
+
 
     @Override
     public void onClick(View v) {
@@ -147,9 +158,11 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     private void setupEditData() {
         if (employee != null) {
+
+            Registration.getInstance().setProfileImage(employee.getProfileImage());
             Registration.getInstance().setEmpId(employee.getEmpId());
-            Registration.getInstance().setFirstName(employee.getName().split(" ")[0]);
-            Registration.getInstance().setLastName(employee.getName().split(" ")[1]);
+            Registration.getInstance().setFirstName(employee.getFirstName());
+            Registration.getInstance().setLastName(employee.getLastName());
             Registration.getInstance().setDob(employee.getDob());
             Registration.getInstance().setEmployeeType(employee.getRole());
             Registration.getInstance().setMonthlySalary(String.valueOf(employee.getMonthlySalary()));

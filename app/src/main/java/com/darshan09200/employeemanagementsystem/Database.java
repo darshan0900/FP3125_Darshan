@@ -50,6 +50,7 @@ public class Database {
     }
 
     public Employee getEmployee(String empId) {
+        System.out.println(empId);
         for (int i = 0; i < employees.size(); i++) {
             Employee employee = employees.get(i);
             if (employee.getEmpId().equals(empId)) return employee;

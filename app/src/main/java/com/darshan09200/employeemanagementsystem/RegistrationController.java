@@ -146,6 +146,12 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
 
         binding.submit.setOnClickListener(this);
         binding.close.setOnClickListener(this);
+
+        if (Registration.getInstance().isEdit()) {
+            binding.submit.setText("Save");
+        } else {
+            binding.submit.setText("Submit");
+        }
         resetUI();
     }
 
@@ -346,6 +352,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
     }
 
     private void validate() {
+        String profileImage = Registration.getInstance().getProfileImage();
         String empId = Registration.getInstance().getEmpId();
         String firstName = Registration.getInstance().getFirstName().trim();
         String lastName = Registration.getInstance().getLastName().trim();
@@ -426,13 +433,13 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             }
 
             if (employeeType == EmployeeType.MANAGER) {
-                employee = new Manager(empId, firstName + " " + lastName, dob, Double.parseDouble(occupationRate),
+                employee = new Manager(profileImage, empId, firstName, lastName, dob, Double.parseDouble(occupationRate),
                         Double.parseDouble(monthlySalary), Integer.parseInt(bonusValue), vehicle);
             } else if (employeeType == EmployeeType.PROGRAMMER) {
-                employee = new Programmer(empId, firstName + " " + lastName, dob, Double.parseDouble(occupationRate),
+                employee = new Programmer(profileImage, empId, firstName, lastName, dob, Double.parseDouble(occupationRate),
                         Double.parseDouble(monthlySalary), Integer.parseInt(bonusValue), vehicle);
             } else {
-                employee = new Tester(empId, firstName + " " + lastName, dob, Double.parseDouble(occupationRate),
+                employee = new Tester(profileImage, empId, firstName, lastName, dob, Double.parseDouble(occupationRate),
                         Double.parseDouble(monthlySalary), Integer.parseInt(bonusValue), vehicle);
             }
             System.out.println(monthlySalary);

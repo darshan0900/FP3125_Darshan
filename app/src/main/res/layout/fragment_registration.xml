@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
         <!-- Employee ID -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,27 +24,34 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
-            <TextView
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/rounded_image"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user" />
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="Employee ID"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/empId"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical|end"
-                android:maxLines="1"
-                android:minHeight="48dp"
-                android:text="EMP-123"
-                android:textColor="@color/text"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/empId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:maxLines="1"
+                    android:minHeight="48dp"
+                    android:text="EMP-123"
+                    android:textColor="@color/text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -74,6 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/all_border"
+                    android:clipToOutline="true"
                     android:hint="John"
                     android:inputType="text"
                     android:maxLines="1"
@@ -93,6 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/all_border"
+                    android:clipToOutline="true"
                     android:hint="Smith"
                     android:inputType="text"
                     android:maxLines="1"
@@ -120,6 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/all_border"
+                        android:clipToOutline="true"
                         android:gravity="center"
                         android:minHeight="48dp"
                         android:text="DD/MM/YYYY"
@@ -167,6 +179,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/all_border"
+                        android:clipToOutline="true"
                         android:drawableStart="@drawable/ic_dollar"
                         android:drawablePadding="8dp"
                         android:hint="3000"
@@ -197,6 +210,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/all_border"
+                        android:clipToOutline="true"
                         android:drawableEnd="@drawable/ic_percent"
                         android:drawablePadding="8dp"
                         android:hint="90"
@@ -220,6 +234,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_border"
+                    android:clipToOutline="true"
                     android:minHeight="48dp" />
                 <!-- Bonus Values -->
                 <LinearLayout
@@ -245,6 +260,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/all_border"
+                        android:clipToOutline="true"
                         android:hint="10"
                         android:inputType="number"
                         android:maxLines="1"
@@ -312,6 +328,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_border"
+                    android:clipToOutline="true"
                     android:minHeight="48dp" />
                 <!--        Vehicle Category-->
                 <TextView
@@ -328,6 +345,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_border"
+                    android:clipToOutline="true"
                     android:minHeight="48dp" />
                 <!--        Vehicle Type-->
                 <TextView
@@ -345,6 +363,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_border"
+                    android:clipToOutline="true"
                     android:minHeight="48dp" />
                 <!--        Vehicle Color-->
                 <TextView
@@ -361,6 +380,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_border"
+                    android:clipToOutline="true"
                     android:minHeight="48dp" />
                 <!--sidecar-->
                 <LinearLayout
@@ -403,6 +423,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/all_border"
+                    android:clipToOutline="true"
                     android:hint="3VS-A22"
                     android:inputType="textCapCharacters"
                     android:maxLines="1"

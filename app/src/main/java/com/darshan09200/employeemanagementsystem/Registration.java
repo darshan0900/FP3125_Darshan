@@ -133,6 +133,7 @@ public class Registration {
 
     private boolean isEdit = false;
 
+    private String profileImage;
     private String empId;
     private String firstName;
     private String lastName;
@@ -160,6 +161,7 @@ public class Registration {
     }
 
     public void resetFields() {
+        profileImage = "";
         empId = Database.getInstance().getNewEmpId();
         firstName = "";
         lastName = "";
@@ -183,6 +185,14 @@ public class Registration {
 
     public void setEdit(boolean edit) {
         isEdit = edit;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public String getEmpId() {

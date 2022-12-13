@@ -3,20 +3,15 @@ package com.darshan09200.employeemanagementsystem;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentHomeBinding;
@@ -62,7 +57,7 @@ public class HomeFragment extends Fragment {
                 TextView text1 = view.findViewById(android.R.id.text1);
                 TextView text2 = view.findViewById(android.R.id.text2);
                 Employee employee = getItem(position);
-                text1.setText(employee.getName());
+                text1.setText(employee.getFirstName());
                 text2.setText(employee.getRole().getLabel());
                 String activeEmpId = Database.getInstance().getViewEmpId();
                 if (activeEmpId.length() > 0 && activeEmpId.equals(employee.getEmpId())) {
@@ -115,7 +110,7 @@ public class HomeFragment extends Fragment {
         ArrayList<Employee> allEmployeesData = Database.getInstance().getEmployees();
         ArrayList<Employee> filteredEmployees = new ArrayList<>();
         allEmployeesData.forEach(employee -> {
-            if (employee.getName().toLowerCase().indexOf(text) > -1 || employee.getRole().getLabel().toLowerCase().indexOf(text) > -1)
+            if (employee.getFirstName().toLowerCase().indexOf(text) > -1 || employee.getRole().getLabel().toLowerCase().indexOf(text) > -1)
                 filteredEmployees.add(employee);
         });
         employees.clear();
