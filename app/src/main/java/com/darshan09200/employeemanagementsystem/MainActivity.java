@@ -136,8 +136,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     }
 
-    @Override
-    public void onFabClick() {
+    public void navigateToRegistration() {
         clearSearch();
 
         if (isSplitLayoutActive()) {
@@ -155,6 +154,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     .addToBackStack("primary")
                     .commit();
         }
+    }
+
+    @Override
+    public void onFabClick() {
+        closeViewEmpId();
+        refreshEmployeeListData();
+
+        navigateToRegistration();
     }
 
     @Override
@@ -185,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             DetailsFragment detailsFragment = (DetailsFragment) secondaryFragment;
             detailsFragment.setupData();
         } else if (navigate) {
+            Registration.getInstance().resetFields();
             emptyFragmentStack("secondary");
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new DetailsFragment()).addToBackStack("secondary").commit();
         } else if (empId.length() > 0) {
@@ -285,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onEdit() {
-        onFabClick();
+        navigateToRegistration();
     }
 
     @Override
@@ -307,6 +315,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         inflater.inflate(R.menu.menu, menu);
         searchViewItem = menu.findItem(R.id.search_bar);
         searchView = (SearchView) searchViewItem.getActionView();
+        searchView.setQueryHint("Search Employees");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

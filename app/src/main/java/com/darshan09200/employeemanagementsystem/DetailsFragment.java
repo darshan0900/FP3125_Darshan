@@ -68,6 +68,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             System.out.println(filepath);
             if (filepath.length() > 0) {
                 binding.profileImage.setImageBitmap(BitmapFactory.decodeFile(filepath));
+            }else{
+                binding.profileImage.setImageResource(R.drawable.ic_user);
             }
             binding.empId.setText(employee.getEmpId());
             binding.name.setText(employee.getFirstName() + " " + employee.getLastName());

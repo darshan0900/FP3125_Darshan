@@ -60,6 +60,10 @@ public abstract class Employee {
         return lastName;
     }
 
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
     public LocalDate getDob() {
         return dob;
     }

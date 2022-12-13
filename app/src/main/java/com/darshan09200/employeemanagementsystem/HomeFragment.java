@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentHomeBinding;
@@ -29,7 +26,7 @@ public class HomeFragment extends Fragment {
     OnClickListener clickListener;
 
     ArrayList<Employee> employees = new ArrayList<>();
-    ArrayAdapter<Employee> adapter;
+    EmployeeAdapter adapter;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,37 +46,16 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        adapter = new ArrayAdapter<Employee>(getContext(), android.R.layout.simple_list_item_2, android.R.id.text1, employees) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text1 = view.findViewById(android.R.id.text1);
-                TextView text2 = view.findViewById(android.R.id.text2);
-                Employee employee = getItem(position);
-                text1.setText(employee.getFirstName());
-                text2.setText(employee.getRole().getLabel());
-                String activeEmpId = Database.getInstance().getViewEmpId();
-                if (activeEmpId.length() > 0 && activeEmpId.equals(employee.getEmpId())) {
-                    text1.setTextColor(ContextCompat.getColor(getContext(), R.color.primary));
-                    text2.setTextColor(ContextCompat.getColor(getContext(), R.color.primary));
-                    text2.setAlpha(0.5f);
-                } else {
-                    text1.setTextColor(ContextCompat.getColor(getContext(), R.color.text));
-                    text2.setTextColor(ContextCompat.getColor(getContext(), R.color.textLight));
-                    ;
-                }
-                return view;
-            }
-        };
+        adapter = new EmployeeAdapter(getContext(), R.layout.employee_item, employees);
         adapter.setNotifyOnChange(true);
         binding.listView.setAdapter(adapter);
         refreshData();
         binding.listView.setEmptyView(binding.noRecords);
         binding.listView.setOnItemClickListener((parent, view, position, id) -> {
-            Employee employee = (Employee) parent.getItemAtPosition(position);
+            System.out.println(position);
+            Employee employee = employees.get(position);
             Database.getInstance().setViewEmpId(employee.getEmpId());
-            clickListener.onItemClick();
+            HomeFragment.this.clickListener.onItemClick();
         });
 
         binding.addEmployee.setOnClickListener(v -> clickListener.onFabClick());
@@ -110,7 +86,11 @@ public class HomeFragment extends Fragment {
         ArrayList<Employee> allEmployeesData = Database.getInstance().getEmployees();
         ArrayList<Employee> filteredEmployees = new ArrayList<>();
         allEmployeesData.forEach(employee -> {
-            if (employee.getFirstName().toLowerCase().indexOf(text) > -1 || employee.getRole().getLabel().toLowerCase().indexOf(text) > -1)
+            if (
+                    employee.getFirstName().toLowerCase().contains(text)
+                            || employee.getRole().getLabel().toLowerCase().contains(text)
+                            || employee.getEmpId().toLowerCase().contains(text)
+            )
                 filteredEmployees.add(employee);
         });
         employees.clear();
