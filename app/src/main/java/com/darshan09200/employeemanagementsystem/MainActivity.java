@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                     "567-098",
                                     VehicleColor.BLACK,
                                     VehicleCategory.RACE_MOTORCYCLE,
-                                    true
+                                    false
                             )
                     )
             );

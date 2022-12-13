@@ -291,28 +291,29 @@
                     android:text="Vehicle"
                     android:textStyle="bold" />
 
-                <RadioGroup
-                    android:id="@+id/vehicleKind"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                    <RadioButton
+                    <ImageView
                         android:id="@+id/car"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/primary"
-                        android:text="Car" />
+                        android:gravity="center"
+                        android:src="@drawable/ic_car" />
 
-                    <RadioButton
+                    <ImageView
                         android:id="@+id/motorcycle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/primary"
-                        android:text="Motorbike" />
-                </RadioGroup>
+                        android:gravity="center"
+                        android:src="@drawable/ic_motorcycle" />
+
+                </LinearLayout>
                 <!--        Vehicle Make-->
                 <TextView
                     android:layout_width="match_parent"
@@ -399,14 +400,13 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <CheckBox
+                    <ImageView
                         android:id="@+id/sidecar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/primary"
-                        android:text="Yes"
-                        android:textStyle="bold" />
+                        android:gravity="center"
+                        android:src="@drawable/ic_sidecar" />
                 </LinearLayout>
                 <!--        Plate Number-->
                 <TextView

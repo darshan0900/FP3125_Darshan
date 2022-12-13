@@ -277,7 +277,8 @@
                         android:layout_height="64dp"
                         android:layout_weight="1"
                         android:clipToOutline="true"
-                        android:src="@drawable/motorcycle" />
+                        android:src="@drawable/ic_motorcycle"
+                        app:tint="@color/primary" />
                 </LinearLayout>
                 <!--        Vehicle Make-->
                 <LinearLayout
@@ -413,14 +414,13 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <CheckBox
+                    <ImageView
                         android:id="@+id/sidecar"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:buttonTint="@color/primary"
-                        android:text="Yes"
-                        android:textStyle="bold" />
+                        android:gravity="center"
+                        android:src="@drawable/ic_sidecar" />
                 </LinearLayout>
                 <!--        Plate Number-->
                 <LinearLayout

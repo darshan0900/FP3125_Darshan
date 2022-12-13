@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentDetailsBinding;
@@ -104,28 +105,28 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
             if (vehicle instanceof Car) {
                 Car car = (Car) vehicle;
-                binding.vehicleKind.setImageResource(R.drawable.car);
+                binding.vehicleKind.setImageResource(R.drawable.ic_car);
                 binding.vehicleTypeLayout.setVisibility(View.VISIBLE);
                 binding.vehicleType.setText(car.getType().getLabel());
                 binding.sidecarLayout.setVisibility(View.GONE);
             } else if (vehicle instanceof Motorcycle) {
                 Motorcycle motorcycle = (Motorcycle) vehicle;
-                binding.vehicleKind.setImageResource(R.drawable.motorcycle);
+                binding.vehicleKind.setImageResource(R.drawable.ic_motorcycle);
                 binding.sidecarLayout.setVisibility(View.VISIBLE);
-                binding.sidecar.setChecked(motorcycle.isSidecar());
+                setSidecar(motorcycle.isSidecar());
                 binding.vehicleTypeLayout.setVisibility(View.GONE);
             }
         }
     }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        System.out.println("paused");
-//        if (Database.getInstance().getViewEmpId().length() > 0 && !Registration.getInstance().isEdit()) {
-//            Database.getInstance().setViewEmpId("");
-//        }
-//    }
+
+    public void setSidecar(boolean isChecked) {
+        if (isChecked) {
+            binding.sidecar.setColorFilter(ContextCompat.getColor(getContext(), R.color.primary));
+        } else {
+            binding.sidecar.clearColorFilter();
+        }
+        Registration.getInstance().setSidecarChecked(isChecked);
+    }
 
 
     @Override

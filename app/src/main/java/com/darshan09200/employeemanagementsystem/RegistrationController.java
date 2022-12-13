@@ -6,11 +6,11 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistrationBinding;
 
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class RegistrationController implements AdapterView.OnItemSelectedListener, RadioGroup.OnCheckedChangeListener,
-        DatePickerDialog.OnDateSetListener, View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class RegistrationController implements AdapterView.OnItemSelectedListener,
+        DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
     Context context;
     FragmentRegistrationBinding binding;
@@ -108,7 +108,8 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             }
         });
 
-        binding.vehicleKind.setOnCheckedChangeListener(this);
+        binding.car.setOnClickListener(this);
+        binding.motorcycle.setOnClickListener(this);
 
         vehicleMakes = Registration.getInstance().getVehicleMakeData();
         vehicleMakeAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, vehicleMakes);
@@ -136,7 +137,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
         binding.vehicleColor.setAdapter(vehicleColourAdapter);
         binding.vehicleColor.setOnItemSelectedListener(this);
 
-        binding.sidecar.setOnCheckedChangeListener(this);
+        binding.sidecar.setOnClickListener(this);
         binding.vehiclePlate.addTextChangedListener(new TextChangedListener(binding.vehiclePlate) {
             @Override
             public void onTextChanged(EditText target, Editable s) {
@@ -169,7 +170,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
         int vehicleKindId = R.id.car;
         if (Registration.getInstance().getVehicleKind() == VehicleKind.MOTORCYCLE)
             vehicleKindId = R.id.motorcycle;
-        binding.vehicleKind.check(vehicleKindId);
+        onVehicleKindChanged(vehicleKindId);
 
         binding.vehicleMake
                 .setSelection(getSelectedIndex(vehicleMakes, Registration.getInstance().getVehicleMake().getLabel()));
@@ -179,7 +180,7 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
                 getSelectedIndex(vehicleCategories, Registration.getInstance().getVehicleCategory().getLabel()));
         binding.vehicleColor.setSelection(
                 getSelectedIndex(vehicleColours, Registration.getInstance().getVehicleColor().getLabel()));
-        binding.sidecar.setChecked(Registration.getInstance().getSidecarChecked());
+        onSidecarCheckedChanged(Registration.getInstance().getSidecarChecked());
         binding.vehiclePlate.setText(Registration.getInstance().getVehiclePlate());
     }
 
@@ -274,13 +275,16 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
 
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    public void onVehicleKindChanged(int checkedId) {
         if (checkedId == R.id.motorcycle) {
+            binding.motorcycle.setColorFilter(ContextCompat.getColor(context, R.color.primary));
+            binding.car.clearColorFilter();
             Registration.getInstance().setVehicleKind(VehicleKind.MOTORCYCLE);
             showSidecar();
             hideVehicleType();
         } else {
+            binding.car.setColorFilter(ContextCompat.getColor(context, R.color.primary));
+            binding.motorcycle.clearColorFilter();
             Registration.getInstance().setVehicleKind(VehicleKind.CAR);
             showVehicleType();
             hideSidecar();
@@ -308,6 +312,15 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
                 if (!datePickerDialog.isShowing())
                     datePickerDialog.show();
                 break;
+            case R.id.car:
+                onVehicleKindChanged(R.id.car);
+                break;
+            case R.id.motorcycle:
+                onVehicleKindChanged(R.id.motorcycle);
+                break;
+            case R.id.sidecar:
+                onSidecarCheckedChanged(!Registration.getInstance().getSidecarChecked());
+                break;
             case R.id.submit:
                 validate();
                 break;
@@ -332,8 +345,12 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             Registration.getInstance().setVehiclePlate(s.toString());
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    public void onSidecarCheckedChanged(boolean isChecked) {
+        if (isChecked) {
+            binding.sidecar.setColorFilter(ContextCompat.getColor(context, R.color.primary));
+        } else {
+            binding.sidecar.clearColorFilter();
+        }
         Registration.getInstance().setSidecarChecked(isChecked);
     }
 
