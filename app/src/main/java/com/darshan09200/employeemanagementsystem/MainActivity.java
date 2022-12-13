@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     )
             );
         }
+
 
         emptyFragmentStack(null);
 
@@ -281,14 +283,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     @Override
     public void onSubmit() {
+        playSound(R.raw.sucess_sound);
         onClose();
         refreshEmployeeListData();
     }
 
     @Override
     public void onDelete() {
+        playSound(R.raw.delete_sound);
         clearSearch();
-        onSubmit();
+        onClose();
+        refreshEmployeeListData();
     }
 
     @Override
@@ -347,5 +352,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void playSound(int resId) {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, resId);
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mediaPlayer.reset();
+            mediaPlayer.release();
+        });
+        mediaPlayer.start();
     }
 }
