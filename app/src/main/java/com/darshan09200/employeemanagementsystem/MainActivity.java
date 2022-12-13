@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.primaryFragment);
                 if (fragment instanceof HomeFragment) {
                     HomeFragment homeFragment = (HomeFragment) fragment;

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentHomeBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -98,7 +99,13 @@ public class HomeFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
         if (showToast && filteredEmployees.size() == 0) {
-            Toast.makeText(getActivity(), "Not found", Toast.LENGTH_LONG).show();
+            showSnackbar("Not found");
+        }
+    }
+
+    private void showSnackbar(String msg) {
+        if (msg.length() > 0) {
+            Snackbar.make(binding.parent, msg, Snackbar.LENGTH_LONG).show();
         }
     }
 }
