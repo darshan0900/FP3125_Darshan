@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     new Manager(
                             "",
                             "EMP-002",
-                            "Test2",
-                            "Jain",
+                            "Vijay Bharath",
+                            "Reddy",
                             LocalDate.of(2006, 12, 11),
                             68.0,
                             1000.0,
@@ -77,8 +77,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     new Programmer(
                             "",
                             "EMP-003",
-                            "Test1",
-                            "Jain",
+                            "Jayesh",
+                            "Khistria",
+                            LocalDate.of(2006, 12, 11),
+                            68.0,
+                            1000.0,
+                            98,
+                            new Car(
+                                    VehicleMake.BMW,
+                                    "567-098",
+                                    VehicleColor.BLACK,
+                                    VehicleCategory.FAMILY,
+                                    VehicleType.HATCHBACK
+                            )
+                    )
+            );
+            Database.getInstance().addEmployee(
+                    new Tester(
+                            "",
+                            "EMP-004",
+                            "Mohammed Mubashir",
+                            "Mughal",
                             LocalDate.of(2006, 12, 11),
                             68.0,
                             1000.0,
