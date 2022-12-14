@@ -72,7 +72,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                 binding.profileImage.setImageResource(R.drawable.ic_user);
             }
             binding.empId.setText(employee.getEmpId());
-            binding.name.setText(employee.getFirstName() + " " + employee.getLastName());
+            binding.name.setText(employee.getName());
             binding.age.setText(String.valueOf(employee.getAge()));
             binding.role.setText(employee.getRole().getLabel());
             double annualIncome = 0;

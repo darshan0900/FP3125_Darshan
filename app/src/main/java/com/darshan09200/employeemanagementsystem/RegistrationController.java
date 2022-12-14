@@ -155,8 +155,6 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
         } else {
             binding.submit.setText("Submit");
         }
-        System.out.println(Registration.getInstance().isEdit());
-        System.out.println(Registration.getInstance().hasAnyData());
         if(!Registration.getInstance().isEdit()) {
             if (Registration.getInstance().hasAnyData()) {
                 new AlertDialog.Builder(context)
