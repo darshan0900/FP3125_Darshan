@@ -68,9 +68,9 @@ public class RegistrationFragment extends Fragment implements ActivityResultCall
         } else {
             setupUI(getActivity().findViewById(R.id.main_parent));
         }
-//        binding.profileImage.setOnClickListener(view -> {
-//            openImagePicker();
-//        });
+        binding.profileImage.setOnClickListener(view -> {
+            openImagePicker();
+        });
         loadImage();
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
         return binding.getRoot();
