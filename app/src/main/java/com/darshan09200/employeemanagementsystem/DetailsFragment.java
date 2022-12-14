@@ -161,6 +161,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     private void setupEditData() {
         if (employee != null) {
+            Registration.getInstance().resetFields();
 
             Registration.getInstance().setProfileImage(employee.getProfileImage());
             Registration.getInstance().setEmpId(employee.getEmpId());

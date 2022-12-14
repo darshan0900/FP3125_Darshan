@@ -143,7 +143,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         clearSearch();
 
         if (isSplitLayoutActive()) {
-            getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).addToBackStack("secondary").commit();
+            Fragment secondaryFragment = getSupportFragmentManager().findFragmentById(R.id.secondaryFragment);
+            if (!(secondaryFragment instanceof RegistrationFragment))
+                getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new RegistrationFragment()).addToBackStack("secondary").commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -195,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             DetailsFragment detailsFragment = (DetailsFragment) secondaryFragment;
             detailsFragment.setupData();
         } else if (navigate) {
-            Registration.getInstance().resetFields();
             emptyFragmentStack("secondary");
             getSupportFragmentManager().beginTransaction().add(R.id.secondaryFragment, new DetailsFragment()).addToBackStack("secondary").commit();
         } else if (empId.length() > 0) {

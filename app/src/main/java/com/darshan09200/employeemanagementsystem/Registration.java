@@ -179,6 +179,25 @@ public class Registration {
         vehiclePlate = "";
     }
 
+    public boolean hasAnyData() {
+        return !(
+                profileImage.isEmpty() &&
+                        firstName.trim().isEmpty() &&
+                        lastName.trim().isEmpty() &&
+                        monthlySalary.trim().isEmpty() &&
+                        occupationRate.trim().isEmpty() &&
+                        employeeType == EmployeeType.MANAGER &&
+                        bonusValue.trim().isEmpty() &&
+                        vehicleKind == VehicleKind.CAR &&
+                        vehicleMake == VehicleMake.CHOOSE_MAKE &&
+                        vehicleCategory == VehicleCategory.CHOSE_CATEGORY &&
+                        vehicleType == VehicleType.CHOOSE_TYPE &&
+                        vehicleColor == VehicleColor.CHOOSE_COLOR &&
+                        !isSidecarChecked &&
+                        vehiclePlate.trim().isEmpty()
+        );
+    }
+
     public boolean isEdit() {
         return isEdit;
     }

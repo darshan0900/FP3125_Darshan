@@ -10,6 +10,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
 import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistrationBinding;
@@ -153,6 +154,26 @@ public class RegistrationController implements AdapterView.OnItemSelectedListene
             binding.submit.setText("Save");
         } else {
             binding.submit.setText("Submit");
+        }
+        System.out.println(Registration.getInstance().isEdit());
+        System.out.println(Registration.getInstance().hasAnyData());
+        if(!Registration.getInstance().isEdit()) {
+            if (Registration.getInstance().hasAnyData()) {
+                new AlertDialog.Builder(context)
+                        .setTitle("Retrieve Date")
+                        .setMessage("You want some data saved in draft. Do you want to retrive it?")
+                        .setPositiveButton(android.R.string.yes, (dialog, which)->{
+                            resetUI();
+                        })
+                        .setNegativeButton(android.R.string.no, (dialog, which)->{
+                            Registration.getInstance().resetFields();
+                            resetUI();
+                        })
+                        .show();
+                return;
+            } else {
+                Registration.getInstance().resetFields();
+            }
         }
         resetUI();
     }

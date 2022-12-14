@@ -30,7 +30,6 @@ import com.darshan09200.employeemanagementsystem.databinding.FragmentRegistratio
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 interface OnRegistrationActionListener {
@@ -74,6 +73,12 @@ public class RegistrationFragment extends Fragment implements ActivityResultCall
         loadImage();
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideKeyboard(binding.parent);
     }
 
     private boolean isSplitLayoutActive() {
